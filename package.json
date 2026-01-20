@@ -1,7 +1,7 @@
 {
   "name": "silent-bot",
   "version": "1.0.0",
-  "description": "Discord Silent Voice Bot",
+  "description": "Discord Silent Bot",
   "main": "index.js",
   "scripts": {
     "start": "node index.js"
@@ -10,7 +10,7 @@
     "discord.js": "^14.14.1",
     "@discordjs/voice": "^0.16.1",
     "@discordjs/opus": "^0.9.0",
-    "sodium-native": "^4.0.1",
+    "libsodium-wrappers": "^0.7.13",
     "opusscript": "^0.0.8"
   },
   "engines": {
