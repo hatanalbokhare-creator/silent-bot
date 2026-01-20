@@ -1,10 +1,10 @@
 const sodium = require('libsodium-wrappers');
 
 (async () => {
-  await sodium.ready; // انتظر حتى تكون مكتبة التشفير جاهزة
+  await sodium.ready; // 🔑 ضروري قبل أي اتصال صوتي
 
   const { Client, GatewayIntentBits } = require("discord.js");
-  const { joinVoiceChannel, VoiceConnectionStatus } = require("@discordjs/voice");
+  const { joinVoiceChannel, VoiceConnectionStatus, entersState } = require("@discordjs/voice");
   const http = require("http");
 
   // خادم وهمي لإبقاء البوت حياً في Render
@@ -24,10 +24,9 @@ const sodium = require('libsodium-wrappers');
   const GUILD_ID = "1432785665350828185";
   const VOICE_CHANNEL_ID = "1432785666290356321";
 
-  client.once("ready", () => {
-    console.log(`✅ تم تسجيل الدخول باسم: ${client.user.tag}`);
-
-    const connectToVoice = () => {
+  // دالة اتصال الصوت مع إعادة المحاولة تلقائيًا
+  const connectToVoice = async () => {
+    try {
       const guild = client.guilds.cache.get(GUILD_ID);
       if (!guild) return;
 
@@ -39,13 +38,25 @@ const sodium = require('libsodium-wrappers');
         selfMute: true
       });
 
-      connection.on(VoiceConnectionStatus.Disconnected, () => {
+      // انتظار الاتصال حتى يصبح مستقر
+      await entersState(connection, VoiceConnectionStatus.Ready, 15000);
+      console.log("🔊 البوت متصل بالصوت بنجاح.");
+
+      // إعادة الاتصال عند الانفصال
+      connection.on(VoiceConnectionStatus.Disconnected, async () => {
+        console.log("⚠️ تم قطع الاتصال، سيتم إعادة الاتصال خلال 5 ثوانٍ...");
         setTimeout(connectToVoice, 5000);
       });
-    };
 
-    connectToVoice();
-    console.log("🔊 البوت متصل ومستقر الآن.");
+    } catch (error) {
+      console.error("❌ خطأ أثناء الاتصال بالصوت:", error);
+      setTimeout(connectToVoice, 5000); // إعادة المحاولة بعد 5 ثواني
+    }
+  };
+
+  client.once("ready", () => {
+    console.log(`✅ تم تسجيل الدخول باسم: ${client.user.tag}`);
+    connectToVoice(); // الاتصال بالصوت عند التشغيل
   });
 
   client.login(TOKEN);
