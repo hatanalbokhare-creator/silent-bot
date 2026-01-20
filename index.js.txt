@@ -8,10 +8,8 @@ const client = new Client({
   ]
 });
 
-// حط التوكن حقك هنا
 const TOKEN = "MTQ2MzIwMjE0NTEwNDA0MDA5OQ.GLer7I.yK4U2ofW15xucYB0Ly728UKDBWo9-JHCXTfp4g";
 
-// ايديات السيرفر والروم (جاهزة)
 const GUILD_ID = "1432785665350828185";
 const VOICE_CHANNEL_ID = "1432785666290356321";
 
