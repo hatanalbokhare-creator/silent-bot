@@ -8,8 +8,7 @@ const client = new Client({
   ]
 });
 
-const TOKEN = "MTQ2MzIwMjE0NTEwNDA0MDA5OQ.GAw3aA.NkqPSYZm8Nn8hwutMAFTPJ0VoHysZ_iN1XP1_k";
-
+client.login(process.env.TOKEN);
 const GUILD_ID = "1432785665350828185";
 const VOICE_CHANNEL_ID = "1432785666290356321";
 
@@ -34,4 +33,5 @@ client.once("ready", () => {
 });
 
 client.login(TOKEN);
+
 
