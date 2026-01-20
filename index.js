@@ -32,6 +32,7 @@ client.once("ready", () => {
   console.log("✅ البوت دخل الروم الصوتي وباقي ساكت");
 });
 
-client.login(TOKEN);
+client.login(process.env.TOKEN);
+
 
 
